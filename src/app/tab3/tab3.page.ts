@@ -9,7 +9,7 @@ import { ApiService } from '../services/api.service';
 })
 export class Tab3Page implements OnInit {
  
-  users = [];
+  results = [];
  
   constructor(private apiService: ApiService, private plt: Platform) { }
  
@@ -20,15 +20,12 @@ export class Tab3Page implements OnInit {
   }
  
   loadData(refresh = false, refresher?) {
-    this.apiService.getUsers(refresh).subscribe(res => {
-      this.users = res;
+    this.apiService.getInvalidResults(refresh).subscribe(res => {
+      this.results = res;
       if (refresher) {
         refresher.target.complete();
       }
     });
   }
  
-  updateUser(id) {
-    this.apiService.updateUser(id, {name: 'Simon', job: 'CEO'}).subscribe();
-  }
 }

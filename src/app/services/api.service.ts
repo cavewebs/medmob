@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 import { Observable, from } from 'rxjs';
 import { tap, map, catchError } from "rxjs/operators";
  
-const API_STORAGE_KEY = 'YAGAINDA1234UIX8';
+const API_STORAGE_KEY = 'mYStOrAgEkEY';
 const API_URL = 'http://localhost/apimedic/api/v1';
  
 @Injectable({
@@ -34,19 +34,22 @@ export class ApiService {
     }
   }
  
-  updateUser(user, data): Observable<any> {
-    let url = `${API_URL}/results/${user}`;
-    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-      return from(this.offlineManager.storeRequest(url, 'PUT', data));
+   getInvalidResults(forceRefresh: boolean = false): Observable<any[]> {
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline || !forceRefresh) {
+      // Return the cached data from Storage
+      return from(this.getLocalData('invalidResults'));
     } else {
-      return this.http.put(url, data).pipe(
-        catchError(err => {
-          this.offlineManager.storeRequest(url, 'PUT', data);
-          throw new Error(err);
+      let page = 1;
+      return this.http.get(`${API_URL}/results/valid?per_page=10&page=${page}`).pipe(
+        map(res => res['data']),
+        tap(res => {
+          this.setLocalData('invalidResults', res);
         })
-      );
+      )
     }
   }
+ 
+  
  
   // Save result of API requests
   private setLocalData(key, data) {
