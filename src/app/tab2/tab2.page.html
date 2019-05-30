@@ -7,23 +7,29 @@
 </ion-header>
 
 <ion-content>
-	 <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Latest Results</ion-label>
-      </ion-list-header>
-        <ion-searchbar animated color="primary"></ion-searchbar>
-      <ion-item href="#">
-        <ion-label>Bosun Ade</ion-label>
+  <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+ 
+  <ion-list>
+  
+    <ion-card *ngFor="let result of validResults">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src="/assets/{{result.patientGender}}.png">
+        </ion-thumbnail>
+        <ion-label>{{ result.patientName }} </ion-label>
+        <ion-button fill="outline" slot="end">{{ result.patientGender }} </ion-button>
       </ion-item>
-      <ion-item href="#building/scaffolding">
-        <ion-label>Bosun Tijani</ion-label>
-      </ion-item>
-      <ion-item href="#layout/structure">
-        <ion-label>Tim Faraday</ion-label>
-      </ion-item>
-      <ion-item href="#theming/basics">
-<!--         <ion-icon slot="start" color="medium" name="color-fill"></ion-icon> -->
-        <ion-label>Socratis Mike</ion-label>
-      </ion-item>
-    </ion-list>
+
+      <ion-card-content>
+        <b>Issue Name</b>: {{result.issueName}} <br/>
+        <b>ICD Name</b>: {{result.icdName}} <br/>
+        <b>Prof Name</b>: {{result.profName}} <br/>
+        <b>Result</b>: {{result.result}} <br/>
+        <b>Date</b>: {{result.date}} <br/>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>

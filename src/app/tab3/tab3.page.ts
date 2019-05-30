@@ -9,7 +9,7 @@ import { ApiService } from '../services/api.service';
 })
 export class Tab3Page implements OnInit {
  
-  results = [];
+  invalidResults = [];
  
   constructor(private apiService: ApiService, private plt: Platform) { }
  
@@ -21,7 +21,7 @@ export class Tab3Page implements OnInit {
  
   loadData(refresh = false, refresher?) {
     this.apiService.getInvalidResults(refresh).subscribe(res => {
-      this.results = res;
+      this.invalidResults = res;
       if (refresher) {
         refresher.target.complete();
       }

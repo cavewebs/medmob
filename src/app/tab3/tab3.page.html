@@ -11,12 +11,26 @@
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
- 
+  <ion-searchbar animated color="primary"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let result of results" >
-      <ion-label>
-        <h3>{{ result.patientName }} {{ result.patientGender }}</h3>
-      </ion-label>
-    </ion-item>
+  
+    <ion-card *ngFor="let result of invalidResults">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src="/assets/{{result.patientGender}}.png">
+        </ion-thumbnail>
+        <ion-label>{{ result.patientName }} </ion-label>
+        <ion-button fill="outline" slot="end">{{ result.patientGender }} </ion-button>
+      </ion-item>
+
+      <ion-card-content>
+        <b>Issue Name</b>: {{result.issueName}} <br/>
+        <b>ICD Name</b>: {{result.icdName}} <br/>
+        <b>Prof Name</b>: {{result.profName}} <br/>
+        <b>Result</b>: {{result.result}} <br/>
+        <b>Date</b>: {{result.date}} <br/>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
+  
 </ion-content>
